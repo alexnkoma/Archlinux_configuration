@@ -1,0 +1,203 @@
+#######################################################
+# Arch Linux Windows UEFI Dual boot instalation guide #
+#######################################################
+(based on several tutorials)
+
+-> Once in the archiso~# prompt after booting to usb drive
+-> May have to disable Secure boot
+
+# verify EFI
+ls /sys/firmware/efi/efivars/
+
+# internet conection
+ip link
+# ping 5 times google.com
+ping -c 5 8.8.8.8
+
+# synchronize time
+timedatectl set-ntp true
+timedatectl status
+
+# mirrors
+pacman -Syyy
+pacman -S reflector
+reflector -c Spain -a 6 --sort rate --save /etc/pacman.d/mirrorlist
+
+# check disk
+lsblk
+
+# make partitions
+cfdisk /dev/sda 
+ -> New partition in Free space ->Root
+ -> New partition in Free space ->Swap -> Type Swap (optional)
+ -> Write
+ -> Quit
+gdisk (for GPT)
+-> n 
+-> partiton size
+-> partition type
+-> w
+
+# format partitions
+mkfs.ext4 /dev/sda_root_number (!!!)bootable
+
+# mount root partition
+mount /dev/sda_root_number /mnt
+
+# mount home partition
+mount /dev/sda_home_number /mnt/home
+
+# mount EFI partition
+cfdisk
+ -> check EFI sda_efi_number
+mkdir /mnt/efi
+mount /dev/sda_efi_number /mnt/efi
+
+#mount C: (optional)
+mkdir /mnt/windows10
+mount /dev/sda_windows_number /mnt/windows10
+
+# install base linux
+pacstrap /mnt base linux linux-firmware amd-ucode
+
+# generate fstab file
+genfstab -U /mnt >> /mnt/etc/fstab
+cat /mnt/etc/fstab
+
+# change root to new mounted arch
+arch-chroot /mnt
+
+# swap file (optional)
+fallocate -l 2GB /swapfile
+chmod 600 /swapfile
+mkswap /swapfile
+swapon /swapfile
+nano etc/fstab -> add line:
+/swapfile none swap defaults 0 0 
+
+# link to correct timezone (?)
+timedatactl list-timezones | grep Madrid
+ln -sf /usr/share/zoneinfo/Europe/Madrid /etc/localtime
+
+# synchronize hardware clock
+hwclock --systohc
+
+# install utilities
+pacman -Sy nano base-devel linux-header
+
+# open locale.gen with nano
+nano /etc/locale.gen -> uncomment en_US.UTF8
+locale-gen
+echo "LANG=en_US.UTF-8" >> /etc/locale.conf
+
+# hostname
+nano /etc/hostname -> enter name_of_hostname
+
+# local ip settings
+nano etc/hosts -> add lines:
+127.0.0.1	localhost
+::1		localhost
+127.0.1.1	name_of_hostname.localdomain	name_of_hostname
+
+# install network utilities
+pacman -S networkmanager network-manager-applet dialog mtools dosfstools wireless_tools wpa_supplicant ifplug pulseaudio pavucontrol
+systemctl enable NetworkManager
+
+# add new user
+useradd -mG wheel new_user_name
+passwd new_user_name
+EDITOR=nano visudo -> uncomment %wheel ALL ALL
+passwd (root)
+
+# Bootloader
+pacman -S grub efibootmgr os-prober ntfs-3g (if shared windows folder)
+grub-install --target=x86_64-efi --efi-directory=/efi/ --bootloader-id=GRUB
+grub-mkconfig -o /boot/grub/grub.cfg
+(It has to detect Windows bootloader!!!)
+
+# Unmount
+exit
+umount -R mnt
+
+# Reboot
+reboot
+
+
+###############################
+# minimal i3 post-instalation #
+###############################
+(based on Ermanno tutorial https://www.youtube.com/watch?v=L1B1O0R1IHA)
+
+# video drivers
+sudo pacman -S xf86-video-qxl (virtual machine)
+xrandr --output Virtual-1 --mode 1920x1080
+sudo pacman -s xf86-video-intel (integrated intel video card)
+sudo pacman -s xf86-video-amdgpu (amd video card)
+sudo pacman -S nvidia nvidia-utils (nvidia card)
+
+# display server
+sudo pacman -S xorg xorg-xinit (start from console with *startx*) picom arandr lxappearance
+sudo cp /etc/X11/xinit/xinitrc ~/.xinitrc
+sudo vim .xinitrc -> delete last 5 lines -> add line:
+exec i3
+
+# display manager (not necesary)
+sudo pacman -S lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings
+sudo systemctl enable lightdm
+
+# i3
+sudo pacman -S i3 dmenu rofi htop terminator ranger pcmanfm
+
+# picture
+sudp pacman -S feh nitrogen shotwell
+
+# audio
+sudo pacman -S pulseaudio pavucontrol blanket
+
+# office
+sudo pacman -S firefox evince gnumeric galculator transmission
+
+#dev
+sudo pacman -S vim code git jupiterlab
+
+# python
+sudo pacman -S python-pip
+pip install ipython numpy scipy pandas matplotlib 
+
+##################
+# Configurations #
+##################
+
+# Arch Linux repository with config files
+git clone https://github.com/alexnkoma/Archlinux_configuration.git
+
+# Firefox extensions (if not logged in)
+ghostery ublock dark_reader vimium
+
+# Code extensions
+python live_server prettier pitch_black glass_it
+
+# vim plugins
+vim-plug
+
+#############
+# Documents #
+#############
+
+# Folders to restore/backup
+HTML5 PYTHON pdf
+
+##########################################
+# Qtile instalation (works with wayland) #
+##########################################
+(based on wiki https://wiki.archlinux.org/title/Qtile)
+ 
+# video drivers
+sudo pacman -S xf86-video-qxl (virtual machine)
+xrandr --output Virtual-1 --mode 1920x1080
+sudo pacman -s xf86-video-noveau (free nvidia)
+
+# Qtile and utilities
+sudo pacman -S qtile lxappearance nitrogen thunar picom lightde lightdm-gtk-greeter
+sudo systemctl enable lightdm.service
+
