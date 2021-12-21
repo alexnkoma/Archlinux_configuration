@@ -1,0 +1,77 @@
+#################################
+# Debian i3 minimal instalation #
+#################################
+
+Based on Ermanno 
+
+# Post installation config
+#-------------------------
+su -
+apt install sudo
+
+# Superuser privileges to __user__
+
+
+###############################
+# minimal i3 post-instalation #
+###############################
+(based on Ermanno tutorial https://www.youtube.com/watch?v=L1B1O0R1IHA)
+
+# display server
+sudo apt install xorg xorg-xinit (start from console with *startx*) picom arandr lxappearance
+sudo cp /etc/X11/xinit/xinitrc ~/.xinitrc
+sudo vim .xinitrc -> delete last 5 lines -> add lines:
+exec setxkbmap -option caps:swapescape
+exec i3
+
+# display manager (not necesary)
+sudo apt install lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings
+sudo systemctl enable lightdm
+
+# i3
+sudo apt install i3 i3blocks dmenu rofi htop terminator ranger pcmanfm ttf-font-awesome
+
+# picture
+sudp apt install feh nitrogen shotwell
+
+# audio
+sudo apt install pulseaudio pavucontrol
+
+# office
+sudo apt install firefox-esr evince gnumeric galculator transmission
+
+# dev
+sudo apt install vim code git jupiterlab
+
+# python
+sudo apt install python-pip
+pip install ipython numpy scipy pandas matplotlib 
+
+##################
+# Configurations #
+##################
+
+# Arch Linux repository with config files
+git clone https://github.com/alexnkoma/Archlinux_configuration.git
+
+# Arch Linux repository with i3-eOS config files
+git clone https://github.com/alexnkoma/i3-eOS
+
+# Firefox extensions (if not logged in)
+ghostery ublock dark_reader vimium
+
+# Code extensions
+python live_server prettier pitch_black glassit_VSC vim
+
+# vim plugins
+vim-plug
+
+# Wacom tablet configuration
+# follow guide: https://techsphinx.com/linux/setup-wacom-tablet-linux/
+
+#############
+# Documents #
+#############
+
+# Folders to restore/backup
+HTML5 PYTHON pdf

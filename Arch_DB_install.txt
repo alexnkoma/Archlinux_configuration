@@ -171,14 +171,20 @@ pip install ipython numpy scipy pandas matplotlib
 # Arch Linux repository with config files
 git clone https://github.com/alexnkoma/Archlinux_configuration.git
 
+# Arch Linux repository with i3-eOS config files
+git clone https://github.com/alexnkoma/i3-eOS
+
 # Firefox extensions (if not logged in)
 ghostery ublock dark_reader vimium
 
 # Code extensions
-python live_server prettier pitch_black glass_it
+python live_server prettier pitch_black glassit_VSC vim
 
 # vim plugins
 vim-plug
+
+# Wacom tablet configuration
+# follow guide: https://techsphinx.com/linux/setup-wacom-tablet-linux/
 
 #############
 # Documents #
