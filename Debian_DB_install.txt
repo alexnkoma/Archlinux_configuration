@@ -10,12 +10,21 @@ su -
 apt install sudo
 
 # Superuser privileges to __user__
-
+usermod -aG sudo username
+reboot
 
 ###############################
 # minimal i3 post-instalation #
 ###############################
 (based on Ermanno tutorial https://www.youtube.com/watch?v=L1B1O0R1IHA)
+
+# network configuration (if wireless conection)
+sudo apt install networkmanager wpasupplicant wirelesstools
+sudo systemctl enable NetworkManager
+# Realtek driver install
+# https://github.com/brektrou/rtl8821CU
+# SSID connection
+# https://linuxhint.com/3-ways-to-connect-to-wifi-from-the-command-line-on-debian/
 
 # display server
 sudo apt install xorg xorg-xinit (start from console with *startx*) picom arandr lxappearance
@@ -41,11 +50,13 @@ sudo apt install pulseaudio pavucontrol
 sudo apt install firefox-esr evince gnumeric galculator transmission
 
 # dev
-sudo apt install vim code git jupiterlab
+sudo apt install vim git 
+git config --global user.name "username"
+git config --global user.email "user@mail.com"
 
 # python
 sudo apt install python-pip
-pip install ipython numpy scipy pandas matplotlib 
+pip install ipython numpy scipy pandas matplotlib seaborn scikit-learn jupyter-lab
 
 ##################
 # Configurations #
