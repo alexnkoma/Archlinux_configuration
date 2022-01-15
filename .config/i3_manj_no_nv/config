@@ -16,21 +16,17 @@ bindsym $mod2+r exec terminator -e 'ranger'
 bindsym $mod2+e exec thunar
 bindsym $mod2+c exec code
 bindsym $mod2+v exec evince
-bindsym $mod2+j exec --no-startup-id jupyter-lab --notebook-dir=/run/media/alexnkoma/share/projects
+bindsym $mod2+j exec --no-startup-id jupyter-lab --notebook-dir=run/media/alexnkoma/share/projects
 assign [class="firefox"] $ws2
 assign [class="code-oss"] $ws3
 assign [class="mpv"] $ws4
-for_window [class="Terminator"] focus
-for_window [class="firefox"] focus
-for_window [class="Thunar"] focus
-for_window [class="code-oss"] focus
-for_window [class="Pavucontrol" instance="pavucontrol"] floating enable
-for_window [class="Galculator" instance="galculator"] floating enable
+for_window [class=terminator] focus
+for_window [class=firefox] focus
+for_window [class=Thunar] focus
+for_window [class=code-oss] focus
 bindsym $mod+q kill
-bindsym $mod2+d exec --no-startup-id dmenu_run
+bindsym $mod+d exec --no-startup-id dmenu_run
 bindsym $mod+t exec "rofi -modi drun,run -show drun"
-bindsym $mod+d exec rofi -modi drun -show drun \
-                -config ~/.config/rofi/rofidmenu.rasi
 bindsym $mod+h focus left
 bindsym $mod+j focus down
 bindsym $mod+k focus up
@@ -56,9 +52,9 @@ bindsym $mod+e layout toggle split
 bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
-set $ws1 "1:"
-set $ws2 "2:"
-set $ws3 "3:"
+set $ws1 "1:>_"
+set $ws2 "2:www"
+set $ws3 "3:</>"
 set $ws4 "4:(>)"
 set $ws5 "5:.py"
 set $ws6 "6"
@@ -88,25 +84,20 @@ bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
-bindsym $mod+Shift+e exec ~/.config/i3/scripts/powermenu
-#bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 bar {
 	mode hide
 	hidden_state hide
 	modifier Mod4
         status_command i3status -c ~/.config/i3/i3status.conf
-	strip_workspace_numbers yes
 }
 exec --no-startup-id ~/.screenlayout/monitor.sh
 workspace $ws1 output DVI-D-1
 workspace $ws2 output DVI-D-1
 workspace $ws3 output DVI-D-1
 workspace $ws4 output HDMI-1
-exec --no-startup-id dex --autostart --environment i3
-exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id setxkbmap -option caps:swapescape
-exec --no-startup-id picom -fb --unredir-if-possible --backend xr_glx_hybrid --vsync --use-damage --glx-no-stencil
+exec --no-startup-id picom -fb
 exec --no-startup-id nitrogen --restore
 exec --no-startup-id xset s off dpms 6000 6000 6000
-exec --no-startup-id unclutter -idle 1 -b --ignore-scrolling
-exec --no-startup-id dbus-launch dunst --config ~/.config/dunst/dunstrc
+exec --no-startup-id unclutter -idle 1 -b --ignore-scrolling 
