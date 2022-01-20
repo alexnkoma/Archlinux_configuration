@@ -19,7 +19,7 @@ reboot
 (based on Ermanno tutorial https://www.youtube.com/watch?v=L1B1O0R1IHA)
 
 # network configuration (if wireless conection)
-sudo apt install networkmanager wpasupplicant wirelesstools
+sudo apt install networkmanager wpasupplicant wirelesstools net-tools
 sudo systemctl enable NetworkManager
 # Realtek driver install
 # https://github.com/brektrou/rtl8821CU
@@ -27,36 +27,66 @@ sudo systemctl enable NetworkManager
 # https://linuxhint.com/3-ways-to-connect-to-wifi-from-the-command-line-on-debian/
 
 # display server
-sudo apt install xorg xorg-xinit (start from console with *startx*) picom arandr lxappearance
+sudo apt install xorg xorg-xinit (start from console with *startx*)
 sudo cp /etc/X11/xinit/xinitrc ~/.xinitrc
 sudo vim .xinitrc -> delete last 5 lines -> add lines:
 exec setxkbmap -option caps:swapescape
 exec i3
 
 # display manager (not necesary)
+# lightdm
 sudo apt install lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings
 sudo systemctl enable lightdm
+# ly greeter
+sudo apt install build-essential libpam0g-dev libxcb-xkb-dev (dependencies)
+git clone --recurse-submodules https://github.com/nullgemm/ly.git
+make
+sudo make install
+sudo systemctl enable ly.service
+
+# compositor and desktop appearance
+sudo apt install picom arandr lxappearance arc-theme nitrogen 
 
 # i3
-sudo apt install i3 i3blocks dmenu rofi htop terminator ranger pcmanfm ttf-font-awesome
+sudo apt install i3 i3blocks dmenu rofi htop terminator ranger thunar font-awesome
 
-# picture
-sudp apt install feh nitrogen shotwell
+# image
+sudp apt install shotwell mpv
 
 # audio
 sudo apt install pulseaudio pavucontrol
 
 # office
 sudo apt install firefox-esr evince gnumeric galculator transmission
+# firefox addons
+ghostery ublock dark_reader vimium
 
-# dev
-sudo apt install vim git 
+# git 
+sudo apt install git 
 git config --global user.name "username"
 git config --global user.email "user@mail.com"
+
+# vscode
+visit https://code.visualstudio.com/docs/setup/linux
+# Code extensions
+python live_server prettier pitch_black glassit_VSC vim go go-tools (command palette)
+
+# go
+visit https://go.dev/doc/install
 
 # python
 sudo apt install python-pip
 pip install ipython numpy scipy pandas matplotlib seaborn scikit-learn jupyter-lab
+
+# vim
+sudo apt install vim
+# vim plug
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+# copy .vimrc
+:PlugInstall
+# if no background transparency, add this line to sunbather.vim
+hi Normal guibg=NONE ctermbg=NONE
 
 ##################
 # Configurations #
@@ -65,24 +95,6 @@ pip install ipython numpy scipy pandas matplotlib seaborn scikit-learn jupyter-l
 # Arch Linux repository with config files
 git clone https://github.com/alexnkoma/Archlinux_configuration.git
 
-# Arch Linux repository with i3-eOS config files
-git clone https://github.com/alexnkoma/i3-eOS
-
-# Firefox extensions (if not logged in)
-ghostery ublock dark_reader vimium
-
-# Code extensions
-python live_server prettier pitch_black glassit_VSC vim
-
-# vim plugins
-vim-plug
-
 # Wacom tablet configuration
 # follow guide: https://techsphinx.com/linux/setup-wacom-tablet-linux/
 
-#############
-# Documents #
-#############
-
-# Folders to restore/backup
-HTML5 PYTHON pdf
