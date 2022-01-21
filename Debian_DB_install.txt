@@ -29,8 +29,7 @@ sudo systemctl enable NetworkManager
 # display server
 sudo apt install xorg xorg-xinit (start from console with *startx*)
 sudo cp /etc/X11/xinit/xinitrc ~/.xinitrc
-sudo vim .xinitrc -> delete last 5 lines -> add lines:
-exec setxkbmap -option caps:swapescape
+sudo vim .xinitrc -> delete last 5 lines -> add line:
 exec i3
 
 # display manager (not necesary)
@@ -48,7 +47,7 @@ sudo systemctl enable ly.service
 sudo apt install picom arandr lxappearance arc-theme nitrogen 
 
 # i3
-sudo apt install i3 i3blocks dmenu rofi htop terminator ranger thunar font-awesome
+sudo apt install i3 i3blocks dmenu rofi htop terminator ranger thunar font-awesome unclutter
 
 # image
 sudp apt install shotwell mpv
@@ -65,6 +64,21 @@ ghostery ublock dark_reader vimium
 sudo apt install git 
 git config --global user.name "username"
 git config --global user.email "user@mail.com"
+
+# zsh
+sudo apt install zsh 
+chsh -s $(which zsh)
+# zsh4humans
+if command -v curl >/dev/null 2>&1; then
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/romkatv/zsh4humans/v5/install)"
+else
+  sh -c "$(wget -O- https://raw.githubusercontent.com/romkatv/zsh4humans/v5/install)"
+fi
+# powerlevel10k theme
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
+# individual packages
+# zsh-syntax-highlighting zsh-autosuggestions zsh-history-substring-search zsh-theme-powerlevel10k-git
 
 # vscode
 visit https://code.visualstudio.com/docs/setup/linux
@@ -91,6 +105,12 @@ hi Normal guibg=NONE ctermbg=NONE
 ##################
 # Configurations #
 ##################
+
+# Different time on windows and linux
+timedatectl set-local-rtc 1 --adjust-system-clock
+timedatectl
+# revert changes
+timedatectl set-local-rtc 0 --adjust-system-clock
 
 # Arch Linux repository with config files
 git clone https://github.com/alexnkoma/Archlinux_configuration.git

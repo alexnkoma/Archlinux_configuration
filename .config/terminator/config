@@ -1,0 +1,20 @@
+[global_config]
+[keybindings]
+[profiles]
+  [[default]]
+    icon_bell = False
+    background_darkness = 0.85
+    background_type = transparent
+    cursor_color = "#aaaaaa"
+    show_titlebar = False
+    scrollbar_position = hidden
+    palette = "#2e3436:#cc0000:#f764b3:#c4a000:#f764b3:#75507b:#99c1f1:#d3d7cf:#555753:#ef2929:#8ae234:#fce94f:#c991ab:#ad7fa8:#34e2e2:#eeeeec"
+[layouts]
+  [[default]]
+    [[[window0]]]
+      type = Window
+      parent = ""
+    [[[child1]]]
+      type = Terminal
+      parent = window0
+[plugins]
