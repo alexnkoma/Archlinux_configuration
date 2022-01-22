@@ -18,20 +18,16 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 # Syntax Highlight
-source .config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # Autosuggestions
-source .config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-# History substring
-source .config/zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
-# Syntax Highlight
-source .config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-# History search binds
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
-
-# Theme
-source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+## History substring
+#source .config/zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
+#
+## History search binds
+#bindkey '^[[A' history-substring-search-up
+#bindkey '^[[B' history-substring-search-down
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme
