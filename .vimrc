@@ -15,7 +15,7 @@ set nowrap
 set incsearch
 
 call plug#begin('~/.vim/plugged')
-Plug 'govim/govim'
-Plug 'nikolvs/vim-sunbather'
+"Plug 'govim/govim'
+"Plug 'nikolvs/vim-sunbather'
 call plug#end()
 colorscheme sunbather
