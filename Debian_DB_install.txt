@@ -44,10 +44,11 @@ sudo make install
 sudo systemctl enable ly.service
 
 # compositor and desktop appearance
-sudo apt install picom arandr lxappearance arc-theme nitrogen 
+sudo apt install picom arandr lxappearance arc-theme nitrogen redshift 
 
 # i3
-sudo apt install i3 i3blocks dmenu rofi htop terminator ranger thunar font-awesome unclutter
+sudo apt install i3 i3blocks dmenu rofi htop terminator ranger \
+    thunar font-awesome unclutter
 
 # image
 sudp apt install shotwell mpv
@@ -67,18 +68,11 @@ git config --global user.email "user@mail.com"
 
 # zsh
 sudo apt install zsh 
-chsh -s $(which zsh)
-# zsh4humans
-if command -v curl >/dev/null 2>&1; then
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/romkatv/zsh4humans/v5/install)"
-else
-  sh -c "$(wget -O- https://raw.githubusercontent.com/romkatv/zsh4humans/v5/install)"
-fi
-# powerlevel10k theme
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
-echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
+chsh -s $(which zsh)  # if not in /etc/shells, add: which zsh output to /etc/shells
 # individual packages
-# zsh-syntax-highlighting zsh-autosuggestions zsh-history-substring-search zsh-theme-powerlevel10k-git
+# zsh-syntax-highlighting zsh-autosuggestions zsh-history-substring-search 
+# change prompt, add line in .zshrc:
+PROMPT='%2~ > '
 
 # vscode
 visit https://code.visualstudio.com/docs/setup/linux
@@ -112,9 +106,18 @@ timedatectl
 # revert changes
 timedatectl set-local-rtc 0 --adjust-system-clock
 
-# Arch Linux repository with config files
+# Copy files form Arch Linux repository with config files
+cd Doccuments
 git clone https://github.com/alexnkoma/Archlinux_configuration.git
+cp .zshrc .profile .vimrc ~/
+cp .zsh .vim
+cp /Documents/Archlinux_configuration/.config/terminator ~/.config
+cp /Documents/Archlinux_configuration/.config/i3_eOS/* ~/.config/i3
 
 # Wacom tablet configuration
 # follow guide: https://techsphinx.com/linux/setup-wacom-tablet-linux/
 
+# Redshift Night mode
+redshift -PO 3600
+# reset
+redshift -x
