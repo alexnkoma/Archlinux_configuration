@@ -19,7 +19,7 @@ reboot
 (based on Ermanno tutorial https://www.youtube.com/watch?v=L1B1O0R1IHA)
 
 # network configuration (if wireless conection)
-sudo apt install networkmanager wpasupplicant wirelesstools net-tools
+sudo apt install network-manager wpasupplicant wirelesstools net-tools
 sudo systemctl enable NetworkManager
 # Realtek driver install
 # https://github.com/brektrou/rtl8821CU
@@ -27,7 +27,7 @@ sudo systemctl enable NetworkManager
 # https://linuxhint.com/3-ways-to-connect-to-wifi-from-the-command-line-on-debian/
 
 # display server
-sudo apt install xorg xorg-xinit (start from console with *startx*)
+sudo apt install xorg xinit (start from console with *startx*)
 sudo cp /etc/X11/xinit/xinitrc ~/.xinitrc
 sudo vim .xinitrc -> delete last 5 lines -> add line:
 exec i3
@@ -77,7 +77,7 @@ PROMPT='%2~ > '
 # vscode
 visit https://code.visualstudio.com/docs/setup/linux
 # Code extensions
-python live_server prettier pitch_black glassit_VSC vim go go-tools (command palette)
+python live_server prettier powershell pitch_black glassit_VSC vim go go-tools (command palette)
 
 # go
 visit https://go.dev/doc/install
@@ -116,6 +116,18 @@ cp /Documents/Archlinux_configuration/.config/i3_eOS/* ~/.config/i3
 
 # Wacom tablet configuration
 # follow guide: https://techsphinx.com/linux/setup-wacom-tablet-linux/
+sudo apt-get install build-essential autoconf linux-headers-$(uname -r)
+if test -x ./autogen.sh; then ./autogen.sh; else ./configure; fi && make && sudo make install || echo "Build Failed"
+sudo sh -c "apt-get update && apt-get install xserver-xorg-input-wacom$(dpkg -S $(which Xorg) | grep -Eo -- "-hwe-[^:]*")"
+sudo apt-get install build-essential libtool && sudo apt-get build-dep libwacom
+Download & extract libwacom.tar
+cd libwacom
+./autogen.sh --prefix=/usr --libdir=/usr/lib/x86_64-linux-gnu/
+make
+sudo make install
+Map stylus to one monitor (nvidia drivers => HEAD-0/HEAD-1)
+xsetwacom --list
+xsetwacom -v set "Wacom Intuos PT S 2 Pen stylus" MapToOutput HEAD-0
 
 # Redshift Night mode
 redshift -PO 3600
